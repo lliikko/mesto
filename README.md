@@ -9,4 +9,4 @@
 Flexbox, Grid Layout, медиазапросы, JavaScript.
 
 **Сcылка на проект**
-https://lliikko.github.io/
+https://lliikko.github.io/mesto /
