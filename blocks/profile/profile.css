@@ -1,5 +1,5 @@
 .profile{
-  max-width: 880px;
+  max-width: 100%;
   margin: 40px auto 51px auto;
   display: grid;
   place-content: center;
@@ -7,6 +7,13 @@
   grid-template-areas:
   "avatar info add";
 }
+@media screen and (min-width: 768px) and (max-width: 879px){
+  .profile{
+
+  }
+}
+
+
 
 @media screen  and (max-width: 767px){
   .profile{
