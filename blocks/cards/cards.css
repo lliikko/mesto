@@ -8,6 +8,6 @@
 }
 @media screen  and (max-width: 440px){
   .cards{
-   gap: 20px;
+   row-gap: 20px;
   }
 }

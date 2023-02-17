@@ -8,6 +8,8 @@ let profilName = document.querySelector('.profile__name');
 let profilAddit = document.querySelector('.profile__additional');
 
 function openPopup() {
+  nameInput.value = profilName.textContent;
+  jobInput.value = profilAddit.textContent;
   popup.classList.add("popup_opened");
 }
 
