@@ -10,6 +10,9 @@
 @media screen  and (max-width: 767px){
   .profile__info{
     max-width: 282px;
-    margin: 22.25px 19px 36px 19px;
+    margin: 26px 19px 36px 19px;
+    grid-template-areas:
+    "name button"
+    "text text";
   }
 }
