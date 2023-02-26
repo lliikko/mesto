@@ -10,12 +10,15 @@ const profilAddit = document.querySelector('.profile__additional');
 const popupPlaceAdd = document.querySelector('.popup_add-place');
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const formPlace = document.querySelector('.popup__input-container[name="new-place"]');
+const placeInput = formPlace.querySelector('#place');
+const linkInput = formPlace.querySelector('#link');
 
 /*переменнные для лайка*/
 const buttonLike = document.querySelector('.cards__like-button');
 /*переменнные для карточек*/
 const cardsTemplate = document.querySelector('#card-item').content.querySelector('.cards__item');
 const cardsList = document.querySelector('.cards');
+
 /*переменные просмотра фото*/
 const popupFullImage = document.querySelector('.popup_full-image');
 const fullImage = document.querySelector('.popup__image');
@@ -23,15 +26,15 @@ const imageDesc = document.querySelector('.popup__place-name');
 
 /*рендер карточки*/
 function renderCard(cardData){
-  const cardItem = cardsTemplate.cloneNode(true);
-  cardItem.querySelector('.cards__image').src = cardData.link;
-  cardItem.querySelector('.cards__image').alt = cardData.name;
-  cardItem.querySelector('.cards__name').textContent = cardData.name;
-  return cardItem;
+  const cardClone = cardsTemplate.cloneNode(true);
+  cardClone.querySelector('.cards__image').src = cardData.link;
+  cardClone.querySelector('.cards__image').alt = cardData.name;
+  cardClone.querySelector('.cards__name').textContent = cardData.name;
+  return cardClone;
 }
 
 initialCards.forEach((cardData) => {
-  cardItem = renderCard(cardData);
+  const cardItem = renderCard(cardData);
   cardsList.append(cardItem);
 })
 
@@ -85,16 +88,14 @@ function addPlace(){
 }
 function placeFormSubmit (evt) {
   evt.preventDefault();
-  const placeInput = evt.target.querySelector('#place');
-  const linkInput = evt.target.querySelector('#link');
   const data = {
     name: placeInput.value,
     link: linkInput.value,
   }
-  cardItem = renderCard(data);
+  const cardItem = renderCard(data);
   cardsList.prepend(cardItem);
   closePopup(popupPlaceAdd);
-  thisform.reset();
+  evt.target.reset();
 }
 function closePopupPlaceAdd(){
   closePopup(popupPlaceAdd);
