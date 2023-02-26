@@ -1,46 +1,38 @@
-/*переменные для popup профиля*/
-let popup = document.querySelector('.popup');
-let popupProfileEdit = document.querySelector('.popup_edit-profile');
-let buttonProfileEdit = document.querySelector('.profile__edit-button');
-let buttonClose = document.querySelectorAll('.popup__close-button');
-let formElement = document.querySelector('.popup__input-container');
-let nameInput = formElement.querySelector('#name');
-let jobInput = formElement.querySelector('#job');
-let profilName = document.querySelector('.profile__name');
-let profilAddit = document.querySelector('.profile__additional');
+const popupProfileEdit = document.querySelector('.popup_edit-profile');
+const buttonProfileEdit = document.querySelector('.profile__edit-button');
+const buttonsClose = document.querySelectorAll('.popup__close-button');
+const formElement = document.querySelector('.popup__input-container');
+const nameInput = formElement.querySelector('#name');
+const jobInput = formElement.querySelector('#job');
+const profilName = document.querySelector('.profile__name');
+const profilAddit = document.querySelector('.profile__additional');
 /*переменные для popup добавления картинки*/
-let popupPlaceAdd = document.querySelector('.popup_add-place');
-let buttonPlaceAdd = document.querySelector('.profile__add-button');
-let formPlace = document.querySelector('.popup__input-container[name="new-place"]');
-let placeInput = formPlace.querySelector('#place');
-let linkInput = formPlace.querySelector('#link');
+const popupPlaceAdd = document.querySelector('.popup_add-place');
+const buttonPlaceAdd = document.querySelector('.profile__add-button');
+const formPlace = document.querySelector('.popup__input-container[name="new-place"]');
+
 /*переменнные для лайка*/
-let buttonLike = document.querySelector('.cards__like-button');
+const buttonLike = document.querySelector('.cards__like-button');
 /*переменнные для карточек*/
 const cardsTemplate = document.querySelector('#card-item').content.querySelector('.cards__item');
 const cardsList = document.querySelector('.cards');
 /*переменные просмотра фото*/
 const popupFullImage = document.querySelector('.popup_full-image');
-let fullImage = document.querySelector('.popup__image');
-let imageDesc = document.querySelector('.popup__place-name');
+const fullImage = document.querySelector('.popup__image');
+const imageDesc = document.querySelector('.popup__place-name');
 
 /*рендер карточки*/
-function renderCard(cardData, append=true){
-  let cardItem = cardsTemplate.cloneNode(true);
+function renderCard(cardData){
+  const cardItem = cardsTemplate.cloneNode(true);
   cardItem.querySelector('.cards__image').src = cardData.link;
   cardItem.querySelector('.cards__image').alt = cardData.name;
   cardItem.querySelector('.cards__name').textContent = cardData.name;
-
-  if (append === true){
-    cardsList.append(cardItem);
-  }
-  else{
-    cardsList.prepend(cardItem);
-  }
+  return cardItem;
 }
 
 initialCards.forEach((cardData) => {
-  renderCard(cardData);
+  cardItem = renderCard(cardData);
+  cardsList.append(cardItem);
 })
 
 
@@ -64,9 +56,10 @@ function closePopup(elem) {
 /*просмотр фото*/
 function viewPhoto(elem){
   fullImage.src = elem.src;
-  let card = elem.closest(".cards__item");
-  let text = card.querySelector('.cards__name').textContent;
+  const card = elem.closest(".cards__item");
+  const text = card.querySelector('.cards__name').textContent;
   imageDesc.textContent = text;
+  fullImage.alt = text;
   openPopup(popupFullImage);
 }
 
@@ -92,13 +85,16 @@ function addPlace(){
 }
 function placeFormSubmit (evt) {
   evt.preventDefault();
-  console.log(evt.target.id);
-  let data = {
+  const placeInput = evt.target.querySelector('#place');
+  const linkInput = evt.target.querySelector('#link');
+  const data = {
     name: placeInput.value,
     link: linkInput.value,
   }
-  renderCard(data, false)
+  cardItem = renderCard(data);
+  cardsList.prepend(cardItem);
   closePopup(popupPlaceAdd);
+  thisform.reset();
 }
 function closePopupPlaceAdd(){
   closePopup(popupPlaceAdd);
@@ -110,7 +106,7 @@ formPlace.addEventListener('submit', placeFormSubmit);
 buttonProfileEdit.addEventListener("click", editProfile);
 formElement.addEventListener('submit', handleFormSubmit);
 
-buttonClose.forEach((button) =>{
+buttonsClose.forEach((button) =>{
   button.addEventListener('click', (e) => {
     closePopup(button.closest('.popup'));
 })
@@ -120,8 +116,6 @@ document.body.addEventListener( 'click', function ( event ) {
   //alert(event.target.id);
   if (event.target.id == 'btnLike') like(event.target);
   if (event.target.id == 'btnDelete') deleteCard(event.target);
-  if (event.target.id == 'btnImage') {
-    viewPhoto(event.target);
-  };
+  if (event.target.id == 'btnImage') viewPhoto(event.target);
 });
 
