@@ -52,9 +52,11 @@ function deleteCard(elem) {
 /*функции открытия/закрытия popup */
 function openPopup(elem) {
   elem.classList.add("popup_opened");
+  document.addEventListener("keydown", closeByEsc);
 }
 function closePopup(elem) {
   elem.classList.remove("popup_opened");
+  document.removeEventListener('keydown', closeByEsc)
 }
 /*просмотр фото*/
 function viewPhoto(elem){
@@ -69,8 +71,11 @@ function viewPhoto(elem){
 /*popup профиля*/
 function editProfile(){
   openPopup(popupProfileEdit);
+  closeByEsc(popupProfileEdit)
   nameInput.value = profilName.textContent;
   jobInput.value = profilAddit.textContent;
+  nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+
 }
 function handleFormSubmit (evt) {
     evt.preventDefault();
@@ -96,27 +101,29 @@ function placeFormSubmit (evt) {
   cardsList.prepend(cardItem);
   closePopup(popupPlaceAdd);
   evt.target.reset();
+  placeInput.dispatchEvent(new Event('input', { bubbles: true }));
+  linkInput.dispatchEvent(new Event('input', { bubbles: true }));
 }
 function closePopupPlaceAdd(){
   closePopup(popupPlaceAdd);
 }
-
+function closeByEsc(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_opened");
+    closePopup(openedPopup);
+  }
+}
 buttonPlaceAdd.addEventListener("click", addPlace);
 formPlace.addEventListener('submit', placeFormSubmit);
 
 buttonProfileEdit.addEventListener("click", editProfile);
 formElement.addEventListener('submit', handleFormSubmit);
 
-buttonsClose.forEach((button) =>{
-  button.addEventListener('click', (e) => {
-    closePopup(button.closest('.popup'));
-})
-})
-
-document.body.addEventListener( 'click', function ( event ) {
-  //alert(event.target.id);
-  if (event.target.id == 'btnLike') like(event.target);
-  if (event.target.id == 'btnDelete') deleteCard(event.target);
-  if (event.target.id == 'btnImage') viewPhoto(event.target);
+document.body.addEventListener( 'click', function ( ev ) {
+  if (ev.target.id == 'btnLike') like(ev.target);
+  if (ev.target.id == 'btnDelete') deleteCard(ev.target);
+  if (ev.target.id == 'btnImage') viewPhoto(ev.target);
+  if (ev.target.classList.contains('popup__close-button')) closePopup(ev.target.closest('.popup'));
+  if (ev.target.classList.contains('popup_opened')) closePopup(ev.target);
 });
 
