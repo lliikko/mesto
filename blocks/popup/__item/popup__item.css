@@ -1,7 +1,6 @@
 .popup__item{
   width: 358px;
   padding-bottom: 13px;
-  margin-top: 30px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-style: normal;
@@ -9,12 +8,8 @@
   font-size: 14px;
   line-height: 17px;
 }
-.popup__item:first-child{
-  margin-top: 0;
-}
-.popup__item:invalid{
-  border-bottom: 1px solid #FF0000;
-}
+
+
 @media screen  and (max-width: 767px){
   .popup__item{
     width: 238px;
