@@ -1,3 +1,5 @@
+import FormValidator from './FormValidator.js';
+import Card from './Card.js';
 const popupProfileEdit = document.querySelector('.popup_edit-profile');
 const buttonProfileEdit = document.querySelector('.profile__edit-button');
 const buttonsClose = document.querySelectorAll('.popup__close-button');
@@ -21,27 +23,40 @@ const cardsList = document.querySelector('.cards');
 const popupFullImage = document.querySelector('.popup_full-image');
 const fullImage = document.querySelector('.popup__image');
 const imageDesc = document.querySelector('.popup__place-name');
-/*рендер карточки*/
-function renderCard(cardData) {
-    const cardClone = cardsTemplate.cloneNode(true);
-    const cardImage = cardClone.querySelector('.cards__image');
-    cardImage.src = cardData.link;
-    cardImage.alt = cardData.name;
-    cardClone.querySelector('.cards__name').textContent = cardData.name;
-    return cardClone;
+const validationConfig = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  errorClassTemplate: '.popup__input-error_type_',
+  errorClassActive: 'popup__input-error_active',
+  errorClass: "popup__item_invalid",
+};
+const initialCards = [{
+  name: 'Архыз',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+},
+{
+  name: 'Челябинская область',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+},
+{
+  name: 'Иваново',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+},
+{
+  name: 'Камчатка',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+},
+{
+  name: 'Холмогорский район',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+},
+{
+  name: 'Байкал',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
 }
-initialCards.forEach((cardData) => {
-        const cardItem = renderCard(cardData);
-        cardsList.append(cardItem);
-    })
-    /*функция лайка*/
-function like(elem) {
-    elem.classList.toggle("cards__like-button_active");
-}
-/*функция удаления*/
-function deleteCard(elem) {
-    elem.closest(".cards__item").remove();
-}
+];
 /*функции открытияpopup */
 function openPopup(elem) {
     elem.classList.add("popup_opened");
@@ -54,15 +69,7 @@ function closePopup(elem) {
     document.removeEventListener('keydown', closeByEsc);
     elem.removeEventListener("click", setCloseByClick);
 }
-/*просмотр фото*/
-function viewPhoto(elem) {
-    fullImage.src = elem.src;
-    const card = elem.closest(".cards__item");
-    const text = card.querySelector('.cards__name').textContent;
-    imageDesc.textContent = text;
-    fullImage.alt = text;
-    openPopup(popupFullImage);
-}
+
 /*popup профиля*/
 function editProfile() {
     openPopup(popupProfileEdit);
@@ -91,12 +98,13 @@ function addPlace() {
 
 function placeFormSubmit(e) {
     e.preventDefault();
-    const data = {
+    const cardData = {
         name: placeInput.value,
         link: linkInput.value,
     }
-    const cardItem = renderCard(data);
-    cardsList.prepend(cardItem);
+    const card = new Card(cardData, '#card-item');
+    const cardElement = card.generateCard();
+    cardsList.prepend(cardElement);
     closePopup(popupPlaceAdd);
     e.target.reset();
 }
@@ -117,14 +125,20 @@ function setCloseByClick(e) {
     const popup = e.target.closest(".popup_opened");
     if (e.target === popup || e.target === buttonClosePopup) closePopup(popup);
 }
-
+initialCards.forEach((cardData) => {
+  const card = new Card(cardData, '#card-item');
+  const cardElement = card.generateCard();
+  cardsList.append(cardElement);
+})
 
 buttonPlaceAdd.addEventListener("click", addPlace);
 formPlace.addEventListener('submit', placeFormSubmit);
 buttonProfileEdit.addEventListener("click", editProfile);
 formElement.addEventListener('submit', submitEditProfileForm);
-document.body.addEventListener('click', function(e) {
-    if (e.target.id === 'btnLike') like(e.target);
-    if (e.target.id === 'btnDelete') deleteCard(e.target);
-    if (e.target.id === 'btnImage') viewPhoto(e.target);
-});
+
+const profileEditValidate = new FormValidator(validationConfig, popupProfileEdit);
+profileEditValidate.enableValidation();
+const placeAddValidate = new FormValidator(validationConfig, popupPlaceAdd);
+placeAddValidate.enableValidation();
+export {fullImage, imageDesc, openPopup, popupFullImage}
+
