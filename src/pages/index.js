@@ -5,7 +5,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import {initialCards, validationConfig} from '../components/constans.js';
+import {initialCards, validationConfig} from '../utils/constans.js';
 
 
 const popupEdit = document.querySelector('.popup_edit-profile');
@@ -22,11 +22,14 @@ const buttonPlaceAdd = document.querySelector('.profile__add-button');
 
 const cardsContainer = document.querySelector('.cards');
 
+function handleCardClick(name, link) {
+  popupImage.open(name, link);
+}
 
 function createCard(cardData){
   const card = new Card(cardData, '#card-item', handleCardClick);
   return card.generateCard();
-};
+}
 
 const userData = new UserInfo(profileName, profileAbout);
 
@@ -58,9 +61,7 @@ buttonPlaceAdd.addEventListener('click', () => {
 const popupImage = new PopupWithImage(popupFullImage);
 popupImage.setEventListeners();
 
-function handleCardClick(name, link) {
-  popupImage.open(name, link);
-}
+
 
 const sectionElement = new Section({
   items: initialCards,

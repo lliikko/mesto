@@ -4,25 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Mesto</title>
 </head>
 
 <body class="page">
     <header class="header">
-        <img class="header__logo" src=<%="require('./images/logo-mesto.svg')%>" alt="Логотип">
+        <img class="header__logo" src="<%=require('./images/logo-mesto.svg')%>" alt="Логотип">
     </header>
     <main class="content">
         <section class="profile">
-            <img class="profile__avatar" src=<%="require('./images/image.jpg')%>" alt="Аватар">
+            <img class="profile__avatar" src="<%=require('./images/image.jpg')%>" alt="Аватар">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                 <p class="profile__additional">Исследователь океана</p>
                 <button type="button" class="profile__edit-button">
-        <img class="profile__edit-icon" src=<%="require('./images/icon1.svg')%>" alt="Редактировать">
+        <img class="profile__edit-icon" src="<%=require('./images/icon1.svg')%>" alt="Редактировать">
       </button>
             </div>
             <button type="button" class="profile__add-button">
-      <img class="profile__add-icon" src=<%="require('./images/icon2.svg')%>" alt="Добавить">
+      <img class="profile__add-icon" src="<%=require('./images/icon2.svg')%>" alt="Добавить">
     </button>
         </section>
         <section class="cards">
