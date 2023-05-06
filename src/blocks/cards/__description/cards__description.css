@@ -1,4 +1,5 @@
 .cards__description{
+  position: relative;
   max-width: 282px;
   background-color: #FFFFFF;
   display: flex;

@@ -23,6 +23,11 @@ export default class FormValidator {
         this._submitButton.classList.remove(this._config.inactiveButtonClass);
         this._submitButton.disabled = false;
     }
+    clearMistakes() {
+      this._inputList.forEach((inputElement) => {
+        const errorElement = this._form.querySelector(`${this._config.errorClassTemplate}${inputElement.name}`);
+        this._hideInputError(errorElement, inputElement) })
+    }
     _checkInputValidity(input) {
         const errorElement = document.querySelector(`${this._config.errorClassTemplate}${input.name}`)
         if (!input.validity.valid) {

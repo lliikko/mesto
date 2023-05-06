@@ -1,4 +1,12 @@
-const validationConfig = {
+export const apiConfig = {
+  url: 'https://mesto.nomoreparties.co/v1/cohort-65',
+  headers: {
+    authorization: '205e22e2-b113-4435-a34d-89a291a0c436',
+    'Content-Type': 'application/json'
+    }
+  };
+
+export const validationConfig = {
   formSelector: '.popup__container',
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__save-button',
@@ -8,29 +16,16 @@ const validationConfig = {
   errorClass: "popup__item_invalid",
 };
 
-const initialCards = [{
-  name: 'Архыз',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-},
-{
-  name: 'Челябинская область',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-},
-{
-  name: 'Иваново',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-},
-{
-  name: 'Камчатка',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-},
-{
-  name: 'Холмогорский район',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-},
-{
-  name: 'Байкал',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+export const formSelectors = {
+  profile: document.querySelector('.popup__input-container[name="profile"]'),
+  avatar: document.querySelector('.popup__input-container[name="avatar-edit"]'),
+  addCard: document.querySelector('.popup__input-container[name="new-place"]')
 }
-];
-export { initialCards, validationConfig }
+
+export const profileSelectors = {
+  userName: document.querySelector('.profile__name'),
+  userDescription: document.querySelector('.profile__additional'),
+  userAvatar: document.querySelector('.profile__avatar_image')
+}
+
+export const cardTemplate = document.querySelector('#card-item').content;
