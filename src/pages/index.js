@@ -101,7 +101,7 @@ const popupSelectors = {
 }
 const popupOpenButtons = {
   profile: document.querySelector('.profile__edit-button'),
-  avatar: document.querySelector('.profile__avatar_image'),
+  avatar: document.querySelector('.profile__image'),
   addCard: document.querySelector('.profile__add-button')
 }
 const cardsContainer = document.querySelector('.cards');
