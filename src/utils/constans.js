@@ -25,7 +25,7 @@ export const formSelectors = {
 export const profileSelectors = {
   userName: document.querySelector('.profile__name'),
   userDescription: document.querySelector('.profile__additional'),
-  userAvatar: document.querySelector('.profile__avatar_image')
+  userAvatar: document.querySelector('.profile__image')
 }
 
 export const cardTemplate = document.querySelector('#card-item').content;

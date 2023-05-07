@@ -49,6 +49,10 @@ export default class Card {
       this._addEventListeners();
       return this._cardTemplate;
     }
+    setLike(count){
+      this._likesCount.textContent = count;
+      this._likeBtn.classList.toggle('cards__like-button_active');
+    }
   }
 
 

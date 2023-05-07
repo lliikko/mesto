@@ -29,7 +29,13 @@ export default class PopupWithForm extends Popup {
     getInputList() {
       return this._inputList;
     }
-
+    setInputValues(data) {
+      console.log(data)
+      this._inputList.forEach((input) => {
+        // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
+        input.value = data[input.name];
+      });
+    }
     open() {
       super.open();
     }

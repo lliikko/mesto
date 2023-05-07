@@ -14,7 +14,7 @@ const profileFormSubmit = evt => {
   evt.preventDefault();
   popupProfileEdit.isLoading(true);
   const inputValues = popupProfileEdit.getFormValues();
-  api.editProfile(inputValues.name, inputValues.job)
+  api.editProfile(inputValues.name, inputValues.about)
     .then(data => {
       userInfo.setUserInfo(userInfo.getUserInfo(data));
     })
@@ -43,16 +43,16 @@ const handleLikeClick = card => {
   if (card._likeBtn.classList.contains('cards__like-button_active')) {
     api.deleteLike(card._cardId)
       .then((res) => {
-        card._likesCount.textContent = res.likes.length;
-        card._likeBtn.classList.remove('cards__like-button_active');
+        card.setLike(res.likes.length);
+        //card._likeBtn.classList.remove('cards__like-button_active');
       })
       .catch(err => console.log(err));
   }
   else {
     api.likeCard(card._cardId)
       .then((res) => {
-        card._likesCount.textContent = res.likes.length;
-        card._likeBtn.classList.add('cards__like-button_active');
+        card.setLike(res.likes.length);
+        //card._likeBtn.classList.add('cards__like-button_active');
       })
       .catch(err => console.log(err));
   }
@@ -82,15 +82,15 @@ const avatarFormSubmit = evt => {
     .finally(() => avatarPopup.isLoading(false));
 }
 
-const render = {
+const renderer = {
   renderer: (item, id) => {
-    renderCard._container.append(createCard(item, id));
+    renderCard.container.append(createCard(item, id));
   }
 }
 
 const profileFormInputs = {
   userName: document.querySelector('#name'),
-  userDescription: document.querySelector('#job')
+  userDescription: document.querySelector('#about')
 }
 const popupSelectors = {
   profile: document.querySelector('.popup_edit-profile'),
@@ -112,7 +112,7 @@ const cardHandlers = {
 }
 
 const api = new Api(apiConfig);
-const renderCard = new Section(render, cardsContainer);
+const renderCard = new Section(renderer, cardsContainer);
 const popupProfileEdit = new PopupWithForm(popupSelectors.profile, evt => profileFormSubmit(evt));
 const addCardPopup = new PopupWithForm(popupSelectors.addCard, evt => addCardFormSubmit(evt));
 const avatarPopup = new PopupWithForm(popupSelectors.editAvatar, evt => avatarFormSubmit(evt));
@@ -139,7 +139,7 @@ popupOpenButtons.profile.addEventListener('click', () => {
     formSelectors.profile.reset();
     api.getProfile()
     .then(data => {
-    userInfo.setInput(userInfo.getUserInfo(data));
+    popupProfileEdit.setInputValues(userInfo.getUserInfo(data));
     profileEditValidate.clearMistakes();
     popupProfileEdit.open();
     });
