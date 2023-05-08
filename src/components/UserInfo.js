@@ -5,6 +5,7 @@ export default class UserInfo {
     this._userAvatarSelector = profileSelectors.userAvatar;
     this._inputName = profileFormInputs.userName;
     this._inputStatus = profileFormInputs.userDescription;
+    this._id = null;
   }
 
   getUserInfo(data) {
@@ -14,7 +15,14 @@ export default class UserInfo {
       avatar: data.avatar
     }
   }
+  getUserId() {
+    return this._id;
+  }
 
+  setUserId(userId) {
+    this._id = userId;
+  }
+  
   setUserInfo({ name, about, avatar }) {
     this._userNameSelector.textContent = name;
     this._userDescriptionSelector.textContent = about;

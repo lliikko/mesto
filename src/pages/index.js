@@ -44,7 +44,6 @@ const handleLikeClick = card => {
     api.deleteLike(card._cardId)
       .then((res) => {
         card.setLike(res.likes.length);
-        //card._likeBtn.classList.remove('cards__like-button_active');
       })
       .catch(err => console.log(err));
   }
@@ -52,7 +51,6 @@ const handleLikeClick = card => {
     api.likeCard(card._cardId)
       .then((res) => {
         card.setLike(res.likes.length);
-        //card._likeBtn.classList.add('cards__like-button_active');
       })
       .catch(err => console.log(err));
   }
@@ -63,7 +61,7 @@ const addCardFormSubmit = evt => {
   addCardPopup.isLoading(true);
   const inputValues = addCardPopup.getFormValues();
   api.sendCard(inputValues.place, inputValues.link)
-    .then((data) => renderCard.addItem(createCard(data)))
+    .then((data) => renderCard.addItem(createCard(data, userInfo.getUserId())))
     .then(() => addCardPopup.close())
     .catch(err => console.log(err))
     .finally(() => addCardPopup.isLoading(false));
@@ -125,6 +123,7 @@ const userInfo = new UserInfo(profileSelectors, profileFormInputs);
 
 Promise.all([api.getProfile(), api.getCards()])
   .then(([userData, cardsData]) => {
+  userInfo.setUserId(userData._id);
   userInfo.setUserInfo(userInfo.getUserInfo(userData));
   renderCard.renderer(cardsData, userData._id);
   })
@@ -142,7 +141,8 @@ popupOpenButtons.profile.addEventListener('click', () => {
     popupProfileEdit.setInputValues(userInfo.getUserInfo(data));
     profileEditValidate.clearMistakes();
     popupProfileEdit.open();
-    });
+    })
+    .catch(err => console.log(err));
   });
 
 popupOpenButtons.avatar.addEventListener('click', () => {
